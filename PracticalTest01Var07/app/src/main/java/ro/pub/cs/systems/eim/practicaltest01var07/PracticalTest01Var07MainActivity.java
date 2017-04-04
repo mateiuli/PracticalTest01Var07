@@ -12,6 +12,7 @@ import android.widget.EditText;
 public class PracticalTest01Var07MainActivity extends AppCompatActivity  implements View.OnClickListener  {
 
     final private static int ANOTHER_ACTIVITY_REQUEST_CODE = 2017;
+    String last_sum = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,43 @@ public class PracticalTest01Var07MainActivity extends AppCompatActivity  impleme
         findViewById(R.id.compute_btn).setOnClickListener(this);
 
 
+        EditText next = (EditText)findViewById(R.id.next_term_text);
+        EditText all = (EditText)findViewById(R.id.all_terms);
+
+
+
+
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        EditText next = (EditText)findViewById(R.id.next_term_text);
+        EditText all = (EditText)findViewById(R.id.all_terms);
+        savedInstanceState.putString("next", next.getText().toString());
+        savedInstanceState.putString("all", all.getText().toString());
+        savedInstanceState.putString("sum", last_sum);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        EditText next = (EditText)findViewById(R.id.next_term_text);
+        EditText all = (EditText)findViewById(R.id.all_terms);
+
+        if (savedInstanceState.getString("next") != null) {
+            next.setText(savedInstanceState.getString("next"));
+        }
+
+        if (savedInstanceState.getString("all") != null) {
+            all.setText(savedInstanceState.getString("all"));
+        }
+
+        if (savedInstanceState.getString("sum") != null) {
+            last_sum = savedInstanceState.getString("sum");
+            Log.d("RESULT", "Suma anterior calculata este = " + last_sum);
+        }
     }
 
     private void onadd(Button btn) {
@@ -49,6 +87,7 @@ public class PracticalTest01Var07MainActivity extends AppCompatActivity  impleme
                     Bundle data = intent.getExtras();
                     // process information from data ...
                     Log.d("RESULT", "Got all_terms value = " + data.get("all_terms").toString());
+                    last_sum = data.get("all_terms").toString();
                 }
                 break;
 
